@@ -145,3 +145,6 @@ See following run as example:
 $ ./my_program.py --version
 2.0
 ```
+
+
+See more examples in [the documentation](http://declarative-parser.readthedocs.io/en/latest/).
