@@ -11,7 +11,7 @@ pip3 install declarative_parser
 
 ### As simple as argparse
 
-It's built on top of argparse - everything you already knows stays valid!
+It's built on top of argparse - everything you already know stays valid!
 
 ```python
 from declarative_parser import Parser, Argument
@@ -60,9 +60,9 @@ assert namespace.output.format == 'gif'
 
 ### Inteligent
 
-Make use of Python 3 type hints to reduce tedious task of parsers writing to two or three lines!
+Make use of Python 3 type hints to reduce tedious task of parsers writing to two or three lines.
 Positional, keyword arguments, type hints, docstrings - everything can be meaningfully transformed into a parser.
-And if you decide to take the control, just overwrite automatically deduced arguments with yout Argument() class-variable.
+And if you decide to take control, just overwrite the automatically deduced arguments with an `Argument()` defined as a class variable.
 
 ```python
 import argparse
@@ -106,7 +106,7 @@ my_program.py: error: the following arguments are required: text
 
 ### Practical
 
-What if you only want to show licence of your program? or version? It there a need to write a separate logic?
+What if you only want to show licence of your program? or version? Is there a need to write a separate logic?
 DeclarativeParser gives you utility decorator: `@action` which utilizes the power of `argparse.Action`,
 leaving behind the otherwise necessary boilerplate code.
 
