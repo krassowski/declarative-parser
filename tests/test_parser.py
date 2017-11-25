@@ -10,6 +10,14 @@ class Success(Exception):
     pass
 
 
+def parse_factory(constructor):
+    def parse(commands):
+        parser = constructor()
+        options = parser.parse_args(commands.split())
+        return options
+    return parse
+
+
 def test_action():
 
     class TestParser(Parser):
@@ -24,7 +32,7 @@ def test_action():
         parser.parse_args(['--version'])
 
 
-def test_parser(capsys):
+def test_arguments_interplay(capsys):
 
     class ShoppingCart(Parser):
 
@@ -40,10 +48,7 @@ def test_parser(capsys):
             as_many_as=products
         )
 
-    def parse(commands):
-        parser = ShoppingCart()
-        options = parser.parse_args(commands.split())
-        return options
+    parse = parse_factory(ShoppingCart)
 
     # does it fail properly?
     with parsing_error(match='counts for 2 products provided, expected for 1'):
@@ -61,3 +66,42 @@ def test_parser(capsys):
     assert opts.products == ['milk', 'coffee']
     assert opts.counts == [3, 1]
 
+
+def test_parser(capsys):
+
+    class Greetings(Parser):
+
+        name = Argument(
+            help='Whom to greet',
+            optional=False
+        )
+
+        count = Argument(
+            default=1,
+            type=int,
+            short='c',
+            help='Number of greetings.'
+        )
+
+        def produce(self, unknown_args):
+            opts = self.namespace
+
+            opts.greetings = f'Hello {opts.name}!\n' * opts.count
+
+            return opts
+
+    parse = parse_factory(Greetings)
+
+    opts = parse('joe')
+    assert opts.greetings == 'Hello joe!\n'
+    assert opts.name == 'joe'
+    assert opts.count == 1
+
+    for command in ['joe --count 2', 'joe --c 2']:
+        assert parse(command).greetings == 'Hello joe!\nHello joe!\n'
+
+    with parsing_error(match='unrecognized arguments: --cont 4'):
+        parse('joe --cont 4')
+
+    with parsing_error(match='the following arguments are required: name'):
+        parse('')
