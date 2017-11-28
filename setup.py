@@ -26,10 +26,10 @@ if __name__ == '__main__':
         author='Michal Krassowski',
         author_email='krassowski.michal+pypi@gmail.com',
         url='https://github.com/krassowski/declarative-parser',
-        download_url='https://github.com/krassowski/declarative-parser/tarball/v0.1-alpha',
+        download_url='https://github.com/krassowski/declarative-parser/tarball/v0.1-beta',
         keywords=['argument', 'parser', 'argparse', 'declarative', 'cli'],
         classifiers=[
-            'Development Status :: 3 - Alpha',
+            'Development Status :: 4 - Beta',
             'License :: OSI Approved :: MIT License',
             'Operating System :: Microsoft :: Windows',
             'Operating System :: POSIX :: Linux',
