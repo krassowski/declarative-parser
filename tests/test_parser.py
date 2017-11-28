@@ -67,6 +67,34 @@ def test_arguments_interplay(capsys):
     assert opts.counts == [3, 1]
 
 
+def test_parallel():
+
+    supported_formats = ['png', 'jpeg', 'gif']
+
+    class InputOptions(Parser):
+        format = Argument(default='png', choices=supported_formats)
+
+    class OutputOptions(Parser):
+        format = Argument(default='jpeg', choices=supported_formats)
+        scale = Argument(type=int, default=100, help='Rescale image to % of original size')
+
+    class ImageConverter(Parser):
+        description = 'This app converts images'
+
+        verbose = Argument(action='store_true')
+        input = InputOptions()
+        output = OutputOptions()
+
+    parse = parse_factory(ImageConverter)
+
+    opts = parse('--verbose input --format jpeg output --format gif --scale 50')
+
+    assert opts.input.format == 'jpeg'
+    assert opts.output.format == 'gif'
+    assert opts.output.scale == 50
+    assert opts.verbose is True
+
+
 def test_parser(capsys):
 
     class Greetings(Parser):

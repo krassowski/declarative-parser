@@ -115,16 +115,16 @@ You can have multiple sub-parsers on the same level, like:
 
     class OutputOptions(Parser):
         format = Argument(default='jpeg', choices=supported_formats)
-        scale = Argument(type: int, default=100, help='Rescale image to % of original size')
+        scale = Argument(type=int, default=100, help='Rescale image to % of original size')
 
     class ImageConverter(Parser):
         description = 'This app converts images'
 
         verbose = Argument(action='store_true')
-        input = InputParser()
-        output = OutputParser()
+        input = InputOptions()
+        output = OutputOptions()
 
-    parser = MyParser()
+    parser = ImageConverter()
 
     commands = '--verbose input image.png output --format gif --scale 50'.split()
 
@@ -344,7 +344,7 @@ leaving behind the otherwise necessary boilerplate code.
 
     class MyProgram:
 
-        def __init__(self, threshold:float=0.05):
+        def __init__(self, threshold: float=0.05):
             """My program does XYZ.
 
             Arguments:
