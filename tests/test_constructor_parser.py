@@ -90,7 +90,9 @@ def test_parser(capsys):
 
 def test_analyze_docstring():
 
-    docstring = """Some docstring.
+    google_docstring = """Some docstring.
+    
+    Some details.
     
     Arguments:
         my_arg: is an important argument
@@ -104,18 +106,70 @@ def test_analyze_docstring():
         examples should not be interpreted as an argument
     
     Returns:
-        results
+        A list of results
     """
-    from declarative_parser.constructor_parser import analyze_docstring
-    args = analyze_docstring(docstring)
 
-    expected_args = {
-        'my_arg': 'is an important argument',
-        'active': 'should some feature be active or maybe it should be not?',
-        'spread': 'should be big or small? how big or how small?'
+    numpy_docstring = """Some docstring,
+    
+    Some details.
+
+    Parameters
+    ----------
+    my_arg
+        is an important argument
+    active
+        should some feature be active
+        or maybe it should be not?
+    spread
+        should be big or small?
+        how big or how small?
+        
+    Returns
+    -------
+    list
+        A list of results
+    """
+
+    rst_docstring = """Some docstring.
+    
+    Some details.
+    
+    :param my_arg: is an important argument
+    :param active: should some feature be active
+            or maybe it should be not?
+    :param spread:
+        should be big or small?
+        how big or how small?
+    :returns: A list of results
+            
+    :Example:
+    
+    examples should not be interpreted as an argument
+    """
+
+    from declarative_parser.constructor_parser import docstring_analyzers
+
+    test_data = {
+        'google': google_docstring,
+        'numpy': numpy_docstring,
+        'rst': rst_docstring
     }
 
-    for name, value in expected_args.items():
-        assert args[name] == value
+    for convention, docstring in test_data.items():
+        print(convention)
 
-    assert 'Example' not in args
+        analyze_docstring = docstring_analyzers[convention]
+
+        args = analyze_docstring(docstring)
+
+        expected_args = {
+            'my_arg': 'is an important argument',
+            'active': 'should some feature be active or maybe it should be not?',
+            'spread': 'should be big or small? how big or how small?'
+        }
+
+        for name, value in expected_args.items():
+            assert args[name] == value
+
+        assert 'Example' not in args
+
