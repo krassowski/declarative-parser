@@ -38,16 +38,16 @@ class InputOptions(Parser):
 
 class OutputOptions(Parser):
     format = Argument(default='jpeg', choices=supported_formats)
-    scale = Argument(type: int, default=100, help='Rescale image to % of original size')
+    scale = Argument(type=int, default=100, help='Rescale image to % of original size')
 
 class ImageConverter(Parser):
     description = 'This app converts images'
 
     verbose = Argument(action='store_true')
-    input = InputParser()
-    output = OutputParser()
+    input = InputOptions()
+    output = OutputOptions()
 
-parser = MyParser()
+parser = ImageConverter()
 
 commands = '--verbose input image.png output --format gif --scale 50'.split()
 
@@ -119,7 +119,7 @@ from declarative_parser.constructor_parser import ConstructorParser
 
 class MyProgram:
 
-    def __init__(self, threshold:float=0.05):
+    def __init__(self, threshold: float=0.05):
         """My program does XYZ.
 
         Arguments:
