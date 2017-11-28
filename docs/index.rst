@@ -277,7 +277,10 @@ Just feed :class:`declarative_parser.constructor_parser.ConstructorParser` with 
 Arguments defined in your `__init__` and in body of your class (i.e. class variables) will be used to create a parser;
 Type annotations (as long as based on real types, not typing module) will be used to define types of your arguments;
 Default: from keyword arguments. Positional arguments will be always required.
-Docstring descriptions in Numpy/Google format will be used to provide help for your arguments.
+Docstring descriptions will be used to provide help for your arguments.
+
+Following docstring formats are supported: Google, NumPy and reStructuredText, with the default being Google.
+To change the format, pass `docstring_type='numpy'` or `docstring_type='rst'` respectively.
 
 When an argument is defined in both: `__init__` and :class:`declarative_parser.Argument()` variable, the class variable overwrites the values from `__init__` .
 

@@ -25,7 +25,7 @@ print(args.square**2)
 ```
 
 
-### Nested and Parellel
+### Nested and Parallel
 
 Everyone knows about nested args. What about parallel groups?
 
@@ -58,7 +58,7 @@ assert namespace.output.format == 'gif'
 ```
 
 
-### Inteligent
+### Intelligent
 
 Make use of Python 3 type hints to reduce tedious task of parsers writing to two or three lines.
 Positional, keyword arguments, type hints, docstrings - everything can be meaningfully transformed into a parser.
@@ -103,6 +103,8 @@ $ ./my_program.py --threshold 0.6
 usage: my_program.py [-h] [--database DATABASE] [--threshold THRESHOLD] text {} ...
 my_program.py: error: the following arguments are required: text
 ```
+
+Three docstring formats are supported: Google, NumPy and reStructuredText, with the default being Google.
 
 ### Practical
 
