@@ -106,6 +106,8 @@ my_program.py: error: the following arguments are required: text
 
 Three docstring formats are supported: Google, NumPy and reStructuredText, with the default being Google.
 
+PS. It works with functions too; see the documentation of [FunctionParser](http://declarative-parser.readthedocs.io/en/latest/constructor_parser.html#declarative_parser.constructor_parser.FunctionParser).
+
 ### Practical
 
 What if you only want to show licence of your program? or version? Is there a need to write a separate logic?

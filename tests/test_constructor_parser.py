@@ -1,7 +1,7 @@
 import pytest
 
 from declarative_parser.parser import Argument
-from declarative_parser.constructor_parser import ConstructorParser
+from declarative_parser.constructor_parser import ConstructorParser, FunctionParser
 
 from utilities import parsing_output
 
@@ -86,6 +86,26 @@ def test_parser(capsys):
 
         with parsing_output(capsys, contains=contains, does_not_contain=does_not_contain):
             parse('-h')
+
+
+def test_function_parser():
+
+    def calc_exponent(base: float, exponent: int=2):
+        return base ** exponent
+
+    def get_result(command_line):
+        parser = FunctionParser(calc_exponent)
+        commands = command_line.split()
+        options = parser.parse_args(commands)
+        return parser.constructor(**vars(options))
+
+    assert get_result('2 --exponent 3') == 2 * 2 * 2
+    assert get_result('2') == 2 * 2
+
+    calc_exponent.exponent = Argument(short='n', type=int, default=1)
+
+    assert get_result('2 -n 4') == 2 * 2 * 2 * 2
+    assert get_result('2') == 2
 
 
 def test_analyze_docstring():

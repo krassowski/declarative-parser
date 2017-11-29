@@ -271,9 +271,9 @@ To further explore additional types, see: :doc:`types`.
 Arguments deduction (typing, docstrings, kwargs)
 ------------------------------------------------
 
-What about automatic parser creation?
+What about automatic parser creation? You can use ClassParser of FunctionParser for that!
 
-Just feed :class:`declarative_parser.constructor_parser.ConstructorParser` with your main class and it will take care of it.
+Just feed :class:`constructor_parser.ClassParser` with your main class and it will take care of it.
 Arguments defined in your `__init__` and in body of your class (i.e. class variables) will be used to create a parser;
 Type annotations (as long as based on real types, not typing module) will be used to define types of your arguments;
 Default: from keyword arguments. Positional arguments will be always required.
@@ -288,7 +288,7 @@ When an argument is defined in both: `__init__` and :class:`declarative_parser.A
 
     import argparse
     from declarative_parser import Argument
-    from declarative_parser.constructor_parser import ConstructorParser
+    from declarative_parser.constructor_parser import ClassParser
 
     class MyProgram:
 
@@ -306,7 +306,7 @@ When an argument is defined in both: `__init__` and :class:`declarative_parser.A
             """
             print(text, threshold, None)
 
-    parser = ConstructorParser(MyProgram)
+    parser = ClassParser(MyProgram)
 
     options = parser.parse_args()
     program = parser.constructor(**vars(options))
@@ -326,6 +326,22 @@ And it works quite intuitively:
 
 
 You could then implement `run` method and call `program.run()` to start you application.
+
+
+Likewise, :class:`constructor_parser.FunctionParser` will create a parser using your function:
+
+.. code-block:: python
+
+    def calc_exponent(base: float, exponent: int=2):
+        return base ** exponent
+
+    parser = FunctionParser(calc_exponent)
+
+    commands = '2 --exponent 3'.split()
+    options = parser.parse_args(commands)
+    result = parser.constructor(**vars(options))
+
+    assert result == 2 * 2 * 2
 
 
 .. _actions:

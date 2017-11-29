@@ -162,6 +162,10 @@ class ConstructorParser(Parser):
     def description(self):
         return self.help
 
+    @staticmethod
+    def get_doc(constructor):
+        return constructor.__init__.__doc__
+
     def __init__(self, constructor, docstring_type='google', **kwargs):
         """Initializes parser analyzing provided class constructor.
 
@@ -170,7 +174,7 @@ class ConstructorParser(Parser):
                 a class to use for parser auto-generation
             docstring_type:
                 docstring convention used in `__init__` method
-                of provided class; on of: google, numpy, rst
+                of provided class; one of: google, numpy, rst
             kwargs:
                 custom keyword arguments to be passed to Parser
         """
@@ -184,7 +188,7 @@ class ConstructorParser(Parser):
 
         # introspect method.__init__
         signature = inspect.signature(constructor)
-        docstring = constructor.__init__.__doc__ or ''
+        docstring = self.get_doc(constructor) or ''
 
         analyze_docstring = docstring_analyzers[docstring_type]
         docstring_help = analyze_docstring(docstring)
@@ -210,3 +214,63 @@ class ConstructorParser(Parser):
                     argument.help = docstring_help.get(name, None)
 
         super().__init__(**kwargs)
+
+
+# ClassParser is just an alias for ConstructorParser
+ClassParser = ConstructorParser
+
+
+class FunctionParser(ConstructorParser):
+    """Create a parser from an existing function
+
+    as well as arguments and sub-parsers defined in function object.
+
+    Example usage::
+
+        def calc_exponent(base: float, exponent: int=2):
+            return base ** exponent
+
+        parser = FunctionParser(calc_exponent)
+
+        commands = '2 --exponent 3'.split()
+        options = parser.parse_args(commands)
+        result = parser.constructor(**vars(options))
+
+        assert result == 2 * 2 * 2
+
+
+    Advanced usage::
+
+        def calc_exponent(base: float, exponent: int=2):
+            return base ** exponent
+
+        # you can override definitions deduced from signature and
+        # docstring: just assign custom Argument on the function:
+        calc_exponent.exponent = Argument(short='n', type=int, default=2)
+
+        parser = FunctionParser(calc_exponent)
+
+        commands = '2 -n 3'.split()
+        options = parser.parse_args(commands)
+        result = parser.constructor(**vars(options))
+
+        assert result == 2 * 2 * 2
+    """
+
+    @staticmethod
+    def get_doc(constructor):
+        return constructor.__doc__
+
+    def __init__(self, constructor, **kwargs):
+        """Initializes parser analyzing provided function.
+
+        Arguments:
+            constructor:
+                a function to use for parser auto-generation
+            docstring_type:
+                docstring convention used in provided function
+                one of: google, numpy, rst
+            kwargs:
+                custom keyword arguments to be passed to Parser
+        """
+        super().__init__(constructor, **kwargs)

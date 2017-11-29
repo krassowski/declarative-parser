@@ -190,3 +190,7 @@ texinfo_documents = [
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3.6', None),
 }
+
+
+# autodoc init
+autoclass_content = 'both'
