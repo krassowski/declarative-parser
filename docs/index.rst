@@ -6,6 +6,7 @@ Powerful like click, integrated like argparse, declarative as sqlalchemy. MIT li
 .. currentmodule:: declarative_parser
 
 Features:
+---------
 
 * :ref:`argparse`
 * :ref:`nested`
@@ -19,9 +20,27 @@ Features:
 .. toctree::
    :caption: Jump into the docs:
 
+   Showcase <self>
    parser
    constructor_parser
    types
+
+
+Installation and support
+------------------------
+
+To install, use `pip` (which is installed by default with Python 3.6):
+
+.. code-block:: bash
+
+    python3 -m pip install declarative_parser
+
+In case of any problem, please `open an issue`_ on GitHub `repository page`_.
+Please, feel free to star and contribute if you find this package interesting.
+
+.. _open an issue: https://github.com/krassowski/declarative-parser/issues/new
+.. _repository page: https://github.com/krassowski/declarative-parser
+
 
 .. _argparse:
 
