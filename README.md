@@ -2,10 +2,10 @@
 [![Build Status](https://travis-ci.org/krassowski/declarative-parser.svg?branch=master)](https://travis-ci.org/krassowski/declarative-parser) [![Code Climate](https://codeclimate.com/github/krassowski/declarative-parser/badges/gpa.svg)](https://codeclimate.com/github/krassowski/declarative-parser) [![Coverage Status](https://coveralls.io/repos/github/krassowski/declarative-parser/badge.svg)](https://coveralls.io/github/krassowski/declarative-parser) [![Documentation Status](https://readthedocs.org/projects/declarative-parser/badge/?version=latest)](http://declarative-parser.readthedocs.io/en/latest/?badge=latest)
 
 Modern, declarative argument parser for Python 3.6+.
-Powerful like click, integrated like argparse, declarative as sqlalchemy. MIT licenced.
+Powerful like click, integrated like argparse, declarative as sqlalchemy. MIT licenced. [Documented on RTD](http://declarative-parser.readthedocs.io/en/latest/). Install with:
 
 ```bash
-pip3 install declarative_parser
+python3 -m pip install declarative_parser
 ```
 
 
