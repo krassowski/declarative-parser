@@ -4,6 +4,7 @@ from declarative_parser import Argument, Parser, action
 from declarative_parser.types import positive_int
 
 from utilities import parsing_error
+from utilities import parsing_output
 
 
 class Success(Exception):
@@ -67,7 +68,7 @@ def test_arguments_interplay(capsys):
     assert opts.counts == [3, 1]
 
 
-def test_parallel():
+def test_parallel(capsys):
 
     supported_formats = ['png', 'jpeg', 'gif']
 
@@ -76,7 +77,7 @@ def test_parallel():
 
     class OutputOptions(Parser):
         format = Argument(default='jpeg', choices=supported_formats)
-        scale = Argument(type=int, default=100, help='Rescale image to % of original size')
+        scale = Argument(type=int, default=100, help='Rescale image to %% of original size')
 
     class ImageConverter(Parser):
         description = 'This app converts images'
@@ -93,6 +94,9 @@ def test_parallel():
     assert opts.output.format == 'gif'
     assert opts.output.scale == 50
     assert opts.verbose is True
+
+    with parsing_output(capsys, contains='Rescale image to % of original size'):
+        parse('output -h')
 
 
 def test_parser(capsys):

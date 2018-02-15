@@ -38,7 +38,7 @@ class InputOptions(Parser):
 
 class OutputOptions(Parser):
     format = Argument(default='jpeg', choices=supported_formats)
-    scale = Argument(type=int, default=100, help='Rescale image to % of original size')
+    scale = Argument(type=int, default=100, help='Rescale image to %% of original size')
 
 class ImageConverter(Parser):
     description = 'This app converts images'
