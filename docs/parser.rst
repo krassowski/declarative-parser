@@ -9,3 +9,5 @@ use :mod:`declarative_parser.parser` module to create custom parsers and argumen
 
 .. automodule:: declarative_parser.parser
     :members:
+    :special-members:
+    :exclude-members: __dict__, __weakref__
