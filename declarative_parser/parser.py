@@ -470,6 +470,9 @@ class Parser:
         rebind the name with `unknown_args = []`, as doing so
         will have no effect: use `unknown_args.remove()` instead).
         """
+        for subparser in self.subparsers.values():
+            subparser.namespace = self.namespace
+            unknown_args = subparser.produce(unknown_args)
         return self.namespace
 
     def error(self, message):
