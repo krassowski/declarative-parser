@@ -2,6 +2,7 @@ import argparse
 import textwrap
 from collections import defaultdict
 from copy import deepcopy
+from traceback import print_exc
 from typing import Sequence
 
 import sys
@@ -348,6 +349,9 @@ class Parser:
             self.validate(self.namespace)
             opts = self.produce(unknown_args)
         except (ValueError, TypeError, argparse.ArgumentTypeError) as e:
+            if self.__error_verbosity__ > 0:
+                print_exc()
+
             self.error(e.args[0])
             raise e
 
@@ -410,6 +414,14 @@ class Parser:
             opts = self.namespace
         for argument in self.all_arguments.values():
             argument.validate(opts)
+
+    @property
+    def __error_verbosity__(self):
+        """How much details of the errors should be shown?
+
+        The higher value, the more debug hints will be displayed.
+        """
+        return 0
 
     @property
     def __pull_to_namespace_above__(self):
