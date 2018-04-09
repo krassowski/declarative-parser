@@ -215,6 +215,9 @@ class ConstructorParser(Parser):
 
         super().__init__(**kwargs)
 
+    def __deepcopy__(self, memodict={}):
+        return self.__class__(self.constructor, **self.kwargs)
+
 
 # ClassParser is just an alias for ConstructorParser
 ClassParser = ConstructorParser

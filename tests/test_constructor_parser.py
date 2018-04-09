@@ -1,9 +1,11 @@
 import pytest
 
-from declarative_parser.parser import Argument
+from declarative_parser.parser import Argument, Parser
 from declarative_parser.constructor_parser import ConstructorParser, FunctionParser
 
 from utilities import parsing_output
+
+from test_parser import parse_factory
 
 
 class Success(Exception):
@@ -86,6 +88,39 @@ def test_parser(capsys):
 
         with parsing_output(capsys, contains=contains, does_not_contain=does_not_contain):
             parse('-h')
+
+
+def test_as_sub_parser(capsys):
+
+    supported_formats = ['png', 'jpeg', 'gif']
+
+    class OutputOptions:
+        format = Argument(default='jpeg', choices=supported_formats)
+
+        def __init__(self, format='jpeg', scale: int=100):
+            """
+            Args:
+                scale: Rescale image to %% of original size
+            """
+            pass
+
+    class ImageConverter(Parser):
+        description = 'This app converts images'
+
+        verbose = Argument(action='store_true')
+        # input skipped for test simplicity
+        output = ConstructorParser(OutputOptions)
+
+    parse = parse_factory(ImageConverter)
+
+    opts = parse('--verbose output --format gif --scale 50')
+
+    assert opts.output.format == 'gif'
+    assert opts.output.scale == 50
+    assert opts.verbose is True
+
+    with parsing_output(capsys, contains='Rescale image to % of original size'):
+        parse('output -h')
 
 
 def test_function_parser():
