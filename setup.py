@@ -19,14 +19,14 @@ if __name__ == '__main__':
     setup(
         name='declarative_parser',
         packages=find_packages(),
-        version='0.1.2',
+        version='0.1.3',
         license='MIT',
         description=' Modern, declarative argument parser for Python 3.6+',
         long_description=get_long_description('README.md'),
         author='Michal Krassowski',
         author_email='krassowski.michal+pypi@gmail.com',
         url='https://github.com/krassowski/declarative-parser',
-        download_url='https://github.com/krassowski/declarative-parser/tarball/v0.1.2',
+        download_url='https://github.com/krassowski/declarative-parser/tarball/v0.1.3',
         keywords=['argument', 'parser', 'argparse', 'declarative', 'cli'],
         classifiers=[
             'Development Status :: 4 - Beta',
